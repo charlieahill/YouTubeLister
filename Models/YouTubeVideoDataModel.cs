@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Windows;
-
 using VideoLibrary;
-
 using YT.Helpers;
 
 namespace YT
@@ -100,6 +98,19 @@ namespace YT
             set { watchedDate = value; }
         }
 
+        private int duration;
+        /// <summary>
+        /// The length of the video in seconds
+        /// </summary>
+        public int Duration
+        {
+            get { return duration; }
+            set { duration = value; }
+        }
+
+        /// <summary>
+        /// Returns a visibility that hides the watched date if the item has not been viewed
+        /// </summary>
         public Visibility WatchedVisibility
         {
             get
@@ -111,6 +122,9 @@ namespace YT
             }
         }
 
+        /// <summary>
+        /// Returns true if the item has a priority set
+        /// </summary>
         public bool PriorityIsSet
         {
             get
@@ -122,6 +136,14 @@ namespace YT
             }
         }
 
+        public string DurationDisplay
+        {
+            get
+            {
+                TimeSpan time = TimeSpan.FromSeconds(Duration);
+                return "Duration: " + time.ToString(@"hh\:mm\:ss");
+            }
+        }
 
         /// <summary>
         /// Creates a YouTube data model from a string URL
@@ -138,6 +160,7 @@ namespace YT
             Channel = info.Author;
             Series = "";
             Title = vid.Title;
+            Duration = (int)info.LengthSeconds;
             Watched = false;
             WatchedDate = DateTime.Now;
             if (DateTime.TryParse(info.UploadDate, out DateTime _uploadDate))

@@ -44,11 +44,12 @@
                         <TextBlock Text="{Binding Title}"/>
                         <StackPanel Grid.Row="1" Orientation="Horizontal">
                             <TextBlock Text="{Binding Channel}" FontSize="10" Width="180"/>
-                            <TextBlock Text="{Binding Series}" Grid.Column="1"  FontSize="10" Width="120"/>
-                            <TextBlock Text="{Binding UploadDate, StringFormat=d}" Grid.Column="2"  FontSize="10" Width="80"/>
-                            <TextBlock Text="{Binding Priority}" Grid.Column="3" FontSize="10" Width="20"/>
-                            <TextBlock Text="{Binding URL}" Grid.Column="4" FontSize="10" Width="240"/>
-                            <TextBlock Text="{Binding WatchedDate, StringFormat=d}" Grid.Column="5" FontSize="10" Visibility="{Binding WatchedVisibility}"/>
+                            <TextBlock Text="{Binding Series}" FontSize="10" Width="120"/>
+                            <TextBlock Text="{Binding DurationDisplay}" FontSize="10" Width="100"/>
+                            <TextBlock Text="{Binding UploadDate, StringFormat=d}" FontSize="10" Width="80"/>
+                            <TextBlock Text="{Binding Priority}" FontSize="10" Width="20"/>
+                            <TextBlock Text="{Binding URL}" FontSize="10" Width="240"/>
+                            <TextBlock Text="{Binding WatchedDate, StringFormat=d}" FontSize="10" Visibility="{Binding WatchedVisibility}"/>
                         </StackPanel>
                         
 
