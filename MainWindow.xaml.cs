@@ -206,10 +206,7 @@ namespace YT
         {
             InputBox inputBox = new InputBox("New Category", "Please enter the name of the new category...");
             if (inputBox.ShowDialog() == true)
-            {
                 ((YouTubeVideoDataModel)VideosListView.SelectedItem).Series = inputBox.UserInput;
-                ((YouTubeVideoDataModel)VideosListView.SelectedItem).Priority = AssignPriority((YouTubeVideoDataModel)VideosListView.SelectedItem);
-            }
 
             OnPropertyChanged("Videos");
         }
@@ -218,11 +215,17 @@ namespace YT
         {
             //If the priority is already set, then do not change it
             if (selectedItem.PriorityIsSet)
+            {
+                Console.WriteLine("Item has priority previously set.");
                 return selectedItem.Priority;
+            }
 
             //No other videos in display list with current priority
             if (DisplayVideos.Where(x => x.Series == selectedItem.Series).Count() == 0)
+            {
+                Console.WriteLine("No other videos in display list with current priority");
                 return "";
+            }
 
             List<string> priorities = new List<string>();
             foreach (YouTubeVideoDataModel video in DisplayVideos.Where(x => x.Series == selectedItem.Series))
@@ -231,9 +234,13 @@ namespace YT
 
             //No video with the priority set
             if (priorities.Count == 0)
+            {
+                Console.WriteLine("No video with the priority set");
                 return "";
+            }
 
             priorities = priorities.OrderBy(x => x).ToList();
+            Console.WriteLine($"Setting priority {priorities.First()}");
             return priorities.First();
         }
 
@@ -314,7 +321,9 @@ namespace YT
         private void AssignToChannelMenuItem_Click(object sender, RoutedEventArgs e)
         {
             ((YouTubeVideoDataModel)VideosListView.SelectedItem).Series = (sender as MenuItem).Header.ToString();
+            ((YouTubeVideoDataModel)VideosListView.SelectedItem).Priority = AssignPriority((YouTubeVideoDataModel)VideosListView.SelectedItem);
             OnPropertyChanged("Videos");
+            UpdateVideoList();
         }
 
         /// <summary>
