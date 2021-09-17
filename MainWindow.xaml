@@ -18,6 +18,7 @@
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
             <CheckBox Margin="5" IsChecked="{Binding SortByUploadDate, Mode=TwoWay}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked">Sort by Upload Date</CheckBox>
+            <CheckBox Margin="5" IsChecked="{Binding MessageBoxForVideoAdd}">Notification on Video Add</CheckBox>
             <CheckBox Margin="5" IsChecked="{Binding DeleteOnOpen}">Delete on Video Open</CheckBox>
             <CheckBox Margin="5" IsChecked="{Binding ShowWatchedVideos, Mode=TwoWay}" Checked="CheckBoxWatched_Checked" Unchecked="CheckBoxWatched_Checked">Show All Videos</CheckBox>
         </StackPanel>
@@ -63,6 +64,7 @@
         </ListView>
 
         <Label Grid.Row="3" x:Name="VideoCountLabel" HorizontalContentAlignment="Right"/>
+        <Label Grid.Row="3" x:Name="SystemInfoLabel" HorizontalContentAlignment="Left"/>
 
     </Grid>
 </Window>

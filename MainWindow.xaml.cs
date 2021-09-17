@@ -26,6 +26,7 @@ namespace YT
             AllVideos = VideoSavingController.Load();
 
             UpdateVideoList();
+            SystemInfoLabel.Content = "Ready";
         }
 
         private void UpdateVideoList(string scrollToURL = "")
@@ -82,10 +83,12 @@ namespace YT
             set { showWatchedVideos = value; OnPropertyChanged("ShowWatchedVideos"); }
         }
 
+        public bool MessageBoxForVideoAdd { get; set; } = false;
 
         private void PasteButton_Click(object sender, RoutedEventArgs e)
         {
             int addedVideos = 0;
+            string lastURL = "";
 
             try
             {
@@ -93,9 +96,7 @@ namespace YT
                 textfromClipboard = Clipboard.GetText();
 
                 string[] URLsFromClipboard = textfromClipboard.Split('\n');
-                string lastURL = "";
-
-
+                
                 foreach (string URLfromClipboard in URLsFromClipboard)
                 {
                     if (!VideoIsDuplicate(URLfromClipboard, AllVideos))
@@ -114,15 +115,21 @@ namespace YT
 
                 UpdateVideoList(lastURL);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _ = MessageBox.Show($"Error adding video.{Environment.NewLine}{Environment.NewLine}{ex}");
             }
 
-            MessageBox.Show($"{addedVideos} videos added.");
+            if (addedVideos == 1)
+                SystemInfoLabel.Content = $"Added video {AllVideos.Where(x => x.URL == lastURL).First().Title}";
+            else
+                SystemInfoLabel.Content = $"{addedVideos} videos added.";
+
+            if (MessageBoxForVideoAdd)
+                MessageBox.Show($"{addedVideos} videos added.");
         }
 
-        private bool VideoIsDuplicate(string uRLfromClipboard, ObservableCollection<YouTubeVideoDataModel> videos)
+            private bool VideoIsDuplicate(string uRLfromClipboard, ObservableCollection<YouTubeVideoDataModel> videos)
         {
             foreach (YouTubeVideoDataModel video in videos)
                 if (uRLfromClipboard.Trim() == video.URL.Trim())
@@ -157,6 +164,7 @@ namespace YT
                     //DisplayVideos.Remove(SelectedVideo);
                 }
 
+                SystemInfoLabel.Content = $"Watching video {SelectedVideo.Title}";
                 UpdateVideoList();
             }
         }
@@ -170,6 +178,7 @@ namespace YT
             AllVideos.Where(x => x.URL == btn.Tag.ToString()).First().Watched = true;
             AllVideos.Where(x => x.URL == btn.Tag.ToString()).First().WatchedDate = DateTime.Now;
             AllVideos.Where(x => x.URL == btn.Tag.ToString()).First().Priority = string.Empty;
+            SystemInfoLabel.Content = $"Removed video {AllVideos.Where(x => x.URL == btn.Tag.ToString()).First().Title}";
             UpdateVideoList();
         }
 
